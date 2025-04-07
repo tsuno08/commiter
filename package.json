@@ -1,47 +1,41 @@
 {
   "name": "commiter",
-  "version": "1.0.0",
+  "displayName": "",
   "description": "",
-  "main": "./src/extension.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.99.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/vscode": "^1.99.0",
-    "@vscode/vsce": "^3.3.2",
-    "typescript": "^5.8.3"
-  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "commiter.helloWorld",
         "title": "Hello World"
-      },
-      {
-        "command": "commiter.generateCommitMessage",
-        "title": "Generate Commit Message"
       }
-    ],
-    "configuration": {
-      "type": "object",
-      "title": "Commiter Configuration",
-      "properties": {
-        "commiter.geminiApiKey": {
-          "type": "string",
-          "default": "",
-          "description": "Gemini API Key"
-        }
-      }
-    }
+    ]
   },
-  "dependencies": {
-    "@google/generative-ai": "^0.24.0"
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
   },
-  "engines": {
-    "vscode": "^1.99.0"
+  "devDependencies": {
+    "@types/vscode": "^1.99.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "eslint": "^9.23.0",
+    "typescript": "^5.8.2",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
   }
 }
