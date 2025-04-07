@@ -1,26 +1,49 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+    const disposable = vscode.commands.registerCommand('commiter.generateCommitMessage', async () => {
+        // APIキーを設定から取得
+        const apiKey = vscode.workspace.getConfiguration('commiter').get('geminiApiKey') as string;
+        if (!apiKey) {
+            vscode.window.showErrorMessage('Gemini APIキーが設定されていません。設定から入力してください。');
+            return;
+        }
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "commiter" is now active!');
+        // アクティブなエディタを取得
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showErrorMessage('アクティブなエディタがありません');
+            return;
+        }
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('commiter.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from !');
-	});
+        // 選択されたコードを取得
+        const selection = editor.selection;
+        const selectedText = editor.document.getText(selection);
 
-	context.subscriptions.push(disposable);
+        try {
+            // Gemini APIを初期化
+            const genAI = new GoogleGenerativeAI(apiKey);
+            const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+
+            // プロンプトを作成
+            const prompt = `以下のコード変更に対する適切なコミットメッセージを生成してください:\n\n${selectedText}\n\nコミットメッセージ:`;
+            
+            // メッセージ生成
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            const text = response.text();
+            const commitMessage = text || "コミットメッセージを生成できませんでした";
+
+            // 生成されたメッセージを表示
+            vscode.window.showInformationMessage(`生成されたコミットメッセージ: ${commitMessage}`);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            vscode.window.showErrorMessage(`コミットメッセージの生成に失敗しました: ${errorMessage}`);
+        }
+    });
+
+    context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
