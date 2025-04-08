@@ -1,7 +1,13 @@
 {
   "name": "commiter",
-  "displayName": "",
-  "description": "",
+  "displayName": "commiter",
+  "description": "ステージング差分からコミットメッセージを生成するVSCode拡張機能",
+  "publisher": "tsuno08",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsuno08/commiter.git"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.99.0"
