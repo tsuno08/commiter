@@ -18,6 +18,15 @@
         "title": "Generate Commit Message"
       }
     ],
+    "menus": {
+      "terminal/context": [
+        {
+          "command": "commiter.generateCommitMessage",
+          "when": "view.terminal.visible",
+          "group": "3_edit@1"
+        }
+      ]
+    },
     "configuration": {
       "title": "Commiter",
       "properties": {
