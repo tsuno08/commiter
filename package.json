@@ -17,7 +17,22 @@
         "command": "commiter.generateCommitMessage",
         "title": "Generate Commit Message"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Commiter",
+      "properties": {
+        "commiter.geminiApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Gemini APIキー"
+        },
+        "commiter.customInstruction": {
+          "type": "string",
+          "default": "",
+          "description": "コミットメッセージ生成時に使用するカスタムインストラクション"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
@@ -32,7 +47,7 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vscode-test",
-    "build": "vsce package --out commiter.vsix"
+    "vsce:package": "vsce package --out commiter.vsix"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
