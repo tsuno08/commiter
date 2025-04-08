@@ -74,15 +74,10 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage(
           `生成されたコミットメッセージ: ${commitMessage}`
         );
-        vscode.window.terminals.forEach((terminal) => {
-          console.log(
-            `Terminal name: ${terminal.name}, Terminal process ID: ${terminal.processId}`
-          );
-          if (terminal) {
-            terminal.show();
-            terminal.sendText(`git commit -m '${commitMessage.trim()}'`, false);
-          }
-        });
+        const terminal = vscode.window.activeTerminal;
+        if (terminal) {
+          terminal.sendText(`git commit -m '${commitMessage.trim()}'`, false);
+        }
       } catch (error: unknown) {
         const errorMessage =
           error instanceof Error ? error.message : String(error);
