@@ -1,11 +1,12 @@
 # Commiter - AI コミットメッセージ生成拡張機能
 
-Gemini API を使用して、コード変更から適切なコミットメッセージを自動生成する VS Code 拡張機能です。
+Gemini API を使用して、ステージングされた差分から適切なコミットメッセージを自動生成する VS Code 拡張機能です。
 
 ## 特徴
 
-- 差分からコミットメッセージを自動生成
-- Gemini API とのシームレスな連携
+- ステージング差分からコミットメッセージを自動生成
+- Gemini API との連携
+- ターミナルコンテキストメニューから直接実行可能
 
 ## インストール
 
@@ -14,16 +15,16 @@ Gemini API を使用して、コード変更から適切なコミットメッセ
 
 ## 使い方
 
-1. コード変更を選択
-2. コマンドパレット(`Cmd+Shift+P`)で`Commiter: Generate Commit Message`を実行
+1. ターミナルパネルで右クリック → "Generate Commit Message"を選択
+2. またはコマンドパレット(`Cmd+Shift+P`)で`Commiter: Generate Commit Message`を実行
 3. 生成されたメッセージを確認してコミット
 
 ## 設定
 
-| 設定項目                | 説明             | デフォルト値 |
-| ----------------------- | ---------------- | ------------ |
-| `commiter.geminiApiKey` | Gemini API キー  | ""           |
-| `commiter.model`        | 使用するモデル名 | "gemini-pro" |
+| 設定項目                     | 説明                                 | デフォルト値 |
+| ---------------------------- | ------------------------------------ | ------------ |
+| `commiter.geminiApiKey`      | Gemini API キー                      | ""           |
+| `commiter.customInstruction` | コミットメッセージ生成用カスタム指示 | ""           |
 
 ## 開発者向け
 
@@ -31,9 +32,17 @@ Gemini API を使用して、コード変更から適切なコミットメッセ
 # 依存関係のインストール
 yarn install
 
-# ビルド
-yarn build
+# 開発ビルド
+yarn compile
+
+# パッケージング
+yarn vsce:package
 
 # デバッグ実行
 F5 (VS Codeのデバッグモード)
 ```
+
+## リンク
+
+- リポジトリ: [https://github.com/tsuno08/commiter](https://github.com/tsuno08/commiter)
+- バージョン: 0.0.1
