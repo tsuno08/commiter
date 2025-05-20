@@ -24,23 +24,13 @@ export function activate(context: vscode.ExtensionContext) {
         .getConfiguration("commiter")
         .get("customInstruction") as string;
 
-      // アクティブなエディタを取得
-      const editor = vscode.window.activeTextEditor;
-      if (!editor) {
-        vscode.window.showErrorMessage("アクティブなエディタがありません");
-        return;
-      }
-
       try {
-        const uri = vscode.workspace.getWorkspaceFolder(
-          editor.document.uri
-        )?.uri;
-        if (!uri) {
-          vscode.window.showErrorMessage(
-            "ワークスペースフォルダが見つかりません"
-          );
+        const workspaceFolders = vscode.workspace.workspaceFolders;
+        if (!workspaceFolders || workspaceFolders.length === 0) {
+          vscode.window.showErrorMessage("ワークスペースフォルダが見つかりません");
           return;
         }
+        const uri = workspaceFolders[0].uri;
         // ステージングされた差分を取得
         const { stdout: gitDiff } = await execAsync("git diff --staged", {
           cwd: uri.fsPath,
